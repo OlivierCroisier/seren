@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.thecodersbreakfast</groupId>
+    <artifactId>seren</artifactId>
+    <version>0.01-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <description>
+        Java Serialization Enhancer
+    </description>
+
+    <developers>
+        <developer>
+            <id>ocroisier</id>
+            <name>Olivier Croisier</name>
+            <email>olivier@thecodersbreakfast.net</email>
+            <url>http://thecodersbreakfast.net</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <code.source.encoding>UTF-8</code.source.encoding>
+        <code.source.version>1.6</code.source.version>
+        <code.target.version>1.6</code.target.version>
+        <ressources.encoding>UTF-8</ressources.encoding>
+        <lib.javassist.version>3.12.1.GA</lib.javassist.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${lib.javassist.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${code.source.version}</source>
+                    <target>${code.target.version}</target>
+                    <encoding>${code.source.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <encoding>${ressources.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
