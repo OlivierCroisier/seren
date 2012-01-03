@@ -29,6 +29,7 @@
         <code.target.version>1.6</code.target.version>
         <ressources.encoding>UTF-8</ressources.encoding>
         <lib.javassist.version>3.12.1.GA</lib.javassist.version>
+        <lib.junit.version>4.9</lib.junit.version>
     </properties>
 
     <dependencies>
@@ -40,7 +41,8 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>${lib.junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
