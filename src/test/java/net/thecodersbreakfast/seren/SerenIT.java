@@ -9,10 +9,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author olivier
  */
-public class SerenTest {
+public class SerenIT {
 
     public static final int NB_POJOS = 1000000;
-    private static final int NB_RUNS = 20;
+    private static final int NB_RUNS = 4;
 
     @Test
     public void serializationSpeed() throws IOException {
@@ -59,6 +59,10 @@ public class SerenTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        new SerenIT().serializationSpeed();
     }
 
 }
