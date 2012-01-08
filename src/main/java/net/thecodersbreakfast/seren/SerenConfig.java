@@ -43,18 +43,29 @@ public final class SerenConfig {
     }
 
     private void parseConfigFile(Properties config) throws ConfigurationException {
+        String filterId = extractSelectedFilterId(config);
+        verifySelectedFilterConfiguration(config, filterId);
+        extractSelectedFilterParameters(config, filterId);
+    }
+
+    private String extractSelectedFilterId(Properties config) throws ConfigurationException {
         String filterId = config.getProperty(FILTERID_PROPERTY);
         if (filterId == null || filterId.length() == 0) {
             throw new ConfigurationException("Required property '" + FILTERID_PROPERTY + "' is missing or blank.");
         }
+        return filterId;
+    }
 
+    private void verifySelectedFilterConfiguration(Properties config, String filterId) throws ConfigurationException {
         this.filterClassName = config.getProperty(FILTER_PREFIX + filterId);
         if (filterClassName == null || filterClassName.length() == 0) {
             throw new ConfigurationException("Missing class name for filter '" + filterId + "'. " +
                     "Please specify a full class name under the '" + FILTER_PREFIX + filterId + "' property key."
             );
         }
+    }
 
+    private void extractSelectedFilterParameters(Properties config, String filterId) {
         String filterPrefix = FILTER_PREFIX + filterId;
         int filterConfigPrefixLength = filterPrefix.length() + 1; //+1 for the dot separator
         for (Object key : config.keySet()) {
