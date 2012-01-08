@@ -7,7 +7,7 @@
 
     <groupId>net.thecodersbreakfast</groupId>
     <artifactId>seren</artifactId>
-    <version>0.01-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
     <description>
@@ -93,7 +93,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <argLine>-javaagent:${project.build.directory}/${project.build.finalName}.jar=filterByClassPattern
+                    <argLine>-javaagent:${project.build.directory}/${project.build.finalName}.jar
                     </argLine>
                     <useSystemClassLoader>true</useSystemClassLoader>
                 </configuration>
