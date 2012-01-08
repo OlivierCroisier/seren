@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author olivier
+ * A {@link ClassFileTransformer} that enhances the serialization speed by injecting optimized writeObject/readObject
+ * methods.
+ *
+ * @author Olivier Croisier
  */
 public class SerenClassTransformer implements ClassFileTransformer {
 
@@ -35,8 +38,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
                 classBytes = cl.toBytecode();
             }
         } catch (Exception e) {
-            System.err.println("Could not enhance class " + className + " : " + e.getMessage()); //FIXME
-            e.printStackTrace();
+            System.err.println("[SEREN] Could not enhance class " + className + " : " + e.getMessage()); //FIXME
         } finally {
             if (cl != null) {
                 cl.detach();
@@ -58,7 +60,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
         String serCode = serializationCode.toString();
         String deserCode = deserializationCode.toString();
 
-        System.out.println("[Seren] Enhancing " + cl.getName());
+        System.out.println("[SEREN] Enhancing " + cl.getName());
         //System.out.println("- Serialization code for " + cl.getName() + ": \n\n" + serCode + "\n\n" + deserCode);
 
         CtMethod writeObjectMethod = CtMethod.make(serCode, cl);
@@ -85,7 +87,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
         deserializationCode.append("} \n");
     }
 
-    void appendCodeForPrimitiveField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
+    private void appendCodeForPrimitiveField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
         String capitalizedType = capitalize(field.getSimpleType());
 
         serializationCode.append("out.write");
@@ -100,7 +102,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
         deserializationCode.append("(); \n");
     }
 
-    void appendCodeForWrapperField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
+    private void appendCodeForWrapperField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
         String name = field.getName();
         String type = field.toPrimitiveType();
 
@@ -116,7 +118,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
         deserializationCode.append("} \n");
     }
 
-    void appendCodeForStringField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
+    private void appendCodeForStringField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
         String name = field.getName();
 
         serializationCode.append("out.writeBoolean(").append(name).append(" != null); \n");
@@ -140,7 +142,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
         deserializationCode.append("} \n");
     }
 
-    void appendCodeForGenericField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
+    private void appendCodeForGenericField(FieldInfo field, Appendable serializationCode, Appendable deserializationCode) throws IOException {
         String name = field.getName();
 
         serializationCode.append("out.writeBoolean(").append(name).append(" != null); \n");
@@ -159,9 +161,11 @@ public class SerenClassTransformer implements ClassFileTransformer {
     private List<FieldInfo> findSerializableFields(CtClass cl) throws NotFoundException {
         List<FieldInfo> serializableFields = new ArrayList<FieldInfo>();
         CtField[] fields = cl.getDeclaredFields();
-        for (CtField field : fields) {
-            if (isSerializableField(field)) {
-                serializableFields.add(new FieldInfo(field.getName(), field.getType().getName()));
+        if (fields != null) {
+            for (CtField field : fields) {
+                if (isSerializableField(field)) {
+                    serializableFields.add(new FieldInfo(field.getName(), field.getType().getName()));
+                }
             }
         }
         return serializableFields;
@@ -171,11 +175,11 @@ public class SerenClassTransformer implements ClassFileTransformer {
         return !memberHasModifiers(field, Modifier.STATIC) && !memberHasModifiers(field, Modifier.TRANSIENT);
     }
 
-    protected boolean memberHasModifiers(CtMember member, int modifiers) {
+    private boolean memberHasModifiers(CtMember member, int modifiers) {
         return (member.getModifiers() & modifiers) != 0;
     }
 
-    static String capitalize(String s) {
+    private static String capitalize(String s) {
         if (s == null) return null;
         if (s.length() == 1) return s.toUpperCase();
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);

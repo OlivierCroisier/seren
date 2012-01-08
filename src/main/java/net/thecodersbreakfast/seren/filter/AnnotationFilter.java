@@ -2,13 +2,14 @@ package net.thecodersbreakfast.seren.filter;
 
 import javassist.CtClass;
 
-import java.util.Map;
-
+/**
+ * A {@link ClassFilter} which based on the detection of the {@link SerenEnhanced} annotation.
+ * <p/>
+ * This filter does not have any configuration parameters.
+ *
+ * @author Olivier Croisier
+ */
 public class AnnotationFilter extends BaseClassFilter {
-
-    @Override
-    public void configure(Map<String, String> config) {
-    }
 
     @Override
     public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception {

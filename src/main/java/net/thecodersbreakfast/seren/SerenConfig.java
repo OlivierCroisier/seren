@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Container for the library's configuration options.
+ *
+ * @author Olivier Croisier
+ */
 public final class SerenConfig {
 
     private static final String CONFIG_FILE = "seren.properties";

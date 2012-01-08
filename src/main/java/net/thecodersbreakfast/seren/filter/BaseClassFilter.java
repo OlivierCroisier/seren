@@ -5,7 +5,20 @@ import javassist.*;
 import java.util.Map;
 
 /**
- * @author olivier
+ * A {@link ClassFilter} performing the most basic checks. It should be used as a superclass by all
+ * {@link ClassFilter} implementations.
+ * <p/>
+ * The candidate class :
+ * <ul>
+ * <li>must be a class (not an enum, interface, annotation, array, or primitive)</li>
+ * <li>must not belong to the core java classes</li>
+ * <li>must implement {@link java.io.Serializable}</li>
+ * <li>must not already have custom serialization methods (readObject/writeObject)</li>
+ * </ul>
+ * <p/>
+ * This filter does not have any configuration parameters.
+ *
+ * @author Olivier Croisier
  */
 public class BaseClassFilter implements ClassFilter {
 

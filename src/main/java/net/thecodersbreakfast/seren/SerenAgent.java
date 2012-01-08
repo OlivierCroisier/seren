@@ -9,8 +9,17 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.ProtectionDomain;
 
+/**
+ * Java Agent for load-time serialization enhancement.
+ * <p/>
+ * Delegates the class selection to a configurable {@link ClassFilter}.<br/>
+ * Configured by the {@link SerenConfig#CONFIG_FILE} file.
+ *
+ * @author Olivier Croisier
+ */
 public class SerenAgent implements ClassFileTransformer {
 
+    public static final String TRANSFORMER_CLASS = "net.thecodersbreakfast.seren.SerenClassTransformer";
     private ClassFileTransformer transformer;
 
     public static void premain(String agentArguments, Instrumentation instrumentation) {
@@ -32,7 +41,7 @@ public class SerenAgent implements ClassFileTransformer {
         try {
             ClassFilter filter = instanciateFilter(config.getFilterClassName());
             filter.configure(config.getFilterConfig());
-            transformer = instanciateTransformer("net.thecodersbreakfast.seren.SerenClassTransformer", filter);
+            transformer = instanciateTransformer(TRANSFORMER_CLASS, filter);
         } catch (Exception e) {
             e.printStackTrace(); //FIXME
             System.exit(0);

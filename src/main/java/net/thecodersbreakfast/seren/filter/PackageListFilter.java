@@ -8,7 +8,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author olivier
+ * A {@link ClassFilter} that accepts classes based on their package.
+ * <p/>
+ * This filter accepts the following configuration parameters :
+ * <ul>
+ * <li>packages : a comma-separated list of fully qualified package names.</li>
+ * </ul>
+ * <p/>
+ * Example :
+ * <pre>
+ *     filter.&lt;filterId&gt;.packages=com.company.project.model
+ * </pre>
+ *
+ * @author Olivier Croisier
  */
 public class PackageListFilter extends BaseClassFilter {
 

@@ -4,10 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author olivier
+ * Models a field found in an enhanced class.
+ *
+ * @author Olivier Croisier
  */
 public final class FieldInfo {
 
+    /**
+     * Maps wrappers to their primitive counterparts.<br/>
+     * Used to detect wrappers and primitives, and to deduce the names of the ObjectOutputStream's writeXXX methods.
+     */
     private static final Map<String, String> WRAPPERS_TO_PRIMITIVES = new HashMap<String, String>();
 
     static {
