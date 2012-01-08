@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public final class SerenConfig {
 
-    private static final String CONFIG_FILE = "seren.properties";
+    protected static final String CONFIG_FILE = "seren.properties";
     private static final String FILTERID_PROPERTY = "seren.filter";
     private static final String FILTER_PREFIX = "filter.";
 

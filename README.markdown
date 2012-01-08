@@ -107,7 +107,14 @@ As an example, below is the code of the PackageListFilter filter :
     }
 
 
-Contact info
-============
+Licence & Contact info
+======================
+
+This library is licenced under the 3-clause BSD Licence (see the attached LICENCE file).
+
+IANAL, but this means (roughly) that you can freely use SEREN in your personal or commercial product, in source or
+binary form, provided you distribute the unmodified licence file with it, make clear I am the original author,
+and do not use my name or the library name to promote your own products.
+Oh, and if it explodes in production, I don't have anything to do with it :)
 
 For any question, please contact me at olivier(@)thecodersbreakfast.net
