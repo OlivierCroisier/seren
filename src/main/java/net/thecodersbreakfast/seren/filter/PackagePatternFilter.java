@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * @author olivier
  */
-public class PackagePatternFilter implements ClassFilter {
+public class PackagePatternFilter extends BaseClassFilter {
 
     private Pattern pattern;
 
@@ -20,8 +20,7 @@ public class PackagePatternFilter implements ClassFilter {
     }
 
     @Override
-    public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) {
-        String packageName = classDefinition.getPackageName();
-        return pattern.matcher(packageName).matches();
+    public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception {
+        return super.acceptClass(classLoader, classDefinition) && pattern.matcher(classDefinition.getPackageName()).matches();
     }
 }

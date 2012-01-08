@@ -1,2 +1,1 @@
 Premain-Class: net.thecodersbreakfast.seren.SerenAgent
-Boot-Class-Path: javassist.jar

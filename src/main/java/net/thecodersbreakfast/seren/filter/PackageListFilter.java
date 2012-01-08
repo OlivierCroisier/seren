@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author olivier
  */
-public class PackageListFilter implements ClassFilter {
+public class PackageListFilter extends BaseClassFilter {
 
     private Set<String> packages = new HashSet<String>();
 
@@ -18,12 +18,10 @@ public class PackageListFilter implements ClassFilter {
     public void configure(Map<String, String> config) {
         String packageNames = config.get("packages");
         packages.addAll(Arrays.asList(packageNames.split(",\\s+")));
-        System.out.println(getClass().getName() + ".packages = " + packages);
     }
 
     @Override
-    public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) {
-        String packageName = classDefinition.getPackageName();
-        return packages.contains(packageName);
+    public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception {
+        return super.acceptClass(classLoader, classDefinition) && packages.contains(classDefinition.getPackageName());
     }
 }

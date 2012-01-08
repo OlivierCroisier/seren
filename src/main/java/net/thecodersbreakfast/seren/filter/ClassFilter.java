@@ -9,8 +9,8 @@ import java.util.Map;
  */
 public interface ClassFilter {
 
-    public void configure(Map<String, String> config);
+    public void configure(Map<String, String> config) throws Exception;
 
-    public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition);
+    public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception;
 
 }

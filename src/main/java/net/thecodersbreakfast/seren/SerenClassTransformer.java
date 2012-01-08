@@ -3,71 +3,46 @@ package net.thecodersbreakfast.seren;
 import javassist.*;
 import net.thecodersbreakfast.seren.filter.ClassFilter;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.instrument.ClassFileTransformer;
+import java.lang.instrument.IllegalClassFormatException;
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author olivier
  */
-public class SerenClassTransformer {
+public class SerenClassTransformer implements ClassFileTransformer {
 
+    private ClassFilter filter;
+    private ClassPool pool = ClassPool.getDefault();
 
-    public byte[] transformClass(ClassLoader loader, String className, Class<?> classDefinition, byte[] classBytes, ClassFilter filter) {
-        ClassPool pool = ClassPool.getDefault();
+    public SerenClassTransformer(ClassFilter filter) {
+        this.filter = filter;
+    }
+
+    @Override
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classBytes) throws IllegalClassFormatException {
         CtClass cl = null;
         try {
-            cl = pool.makeClass(new java.io.ByteArrayInputStream(classBytes));
+            cl = pool.makeClass(new ByteArrayInputStream(classBytes));
 
-            if (filter.acceptClass(loader, cl) && isSerializableClass(cl) && !classAlreadyHasMagicSerializationMethods(cl)) {
+            if (filter.acceptClass(loader, cl)) {
                 List<FieldInfo> serializableFields = findSerializableFields(cl);
                 createCustomSerializationMethods(cl, serializableFields);
                 classBytes = cl.toBytecode();
             }
         } catch (Exception e) {
-            System.err.println("Could not enhance class " + className + " : " + e.getMessage());
+            System.err.println("Could not enhance class " + className + " : " + e.getMessage()); //FIXME
+            e.printStackTrace();
         } finally {
             if (cl != null) {
                 cl.detach();
             }
         }
         return classBytes;
-    }
-
-    private boolean isSerializableClass(CtClass cl) throws NotFoundException {
-        if (cl == null || cl.isInterface() || cl.isEnum()) {
-            return false;
-        }
-
-        CtClass[] interfaces = cl.getInterfaces();
-        for (CtClass itf : interfaces) {
-            if ("java.io.Serializable".equals(itf.getName())) {
-                return true;
-            }
-        }
-
-        return isSerializableClass(cl.getSuperclass());
-    }
-
-
-    private boolean classAlreadyHasMagicSerializationMethods(CtClass cl) throws NotFoundException {
-        CtMethod[] methods = cl.getDeclaredMethods();
-        for (CtMethod method : methods) {
-            if (isWriteObjectMethod(method) || isReadObjectMethod(method)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isWriteObjectMethod(CtMethod method) throws NotFoundException {
-        return "(Ljava/io/ObjectOutputStream;)V".equals(method.getSignature()) &&
-                memberHasModifiers(method, Modifier.PRIVATE & ~Modifier.STATIC);
-    }
-
-    private boolean isReadObjectMethod(CtMethod method) throws NotFoundException {
-        return "(Ljava/io/ObjectInputStream;)V".equals(method.getSignature()) &&
-                memberHasModifiers(method, Modifier.PRIVATE & ~Modifier.STATIC);
     }
 
     private void createCustomSerializationMethods(CtClass cl, List<FieldInfo> serializableFields) throws CannotCompileException, IOException {
@@ -196,8 +171,8 @@ public class SerenClassTransformer {
         return !memberHasModifiers(field, Modifier.STATIC) && !memberHasModifiers(field, Modifier.TRANSIENT);
     }
 
-    private boolean memberHasModifiers(CtMember member, int modifiers) {
-        return (member.getModifiers() & modifiers) == modifiers;
+    protected boolean memberHasModifiers(CtMember member, int modifiers) {
+        return (member.getModifiers() & modifiers) != 0;
     }
 
     static String capitalize(String s) {
@@ -205,5 +180,6 @@ public class SerenClassTransformer {
         if (s.length() == 1) return s.toUpperCase();
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
+
 
 }

@@ -1,10 +1,10 @@
 package net.thecodersbreakfast.seren;
 
+import net.thecodersbreakfast.seren.filter.SerenEnhanced;
+
 import java.io.Serializable;
 
-/**
- * @author olivier
- */
+@SerenEnhanced
 public class Pojo implements Serializable {
 
     boolean primitiveBoolean = true;
