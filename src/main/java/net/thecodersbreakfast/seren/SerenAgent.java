@@ -27,23 +27,31 @@ public class SerenAgent implements ClassFileTransformer {
     }
 
     public SerenAgent() {
+        System.out.println("[SEREN] Seren agent activated.");
+
         SerenConfig config = null;
         try {
             config = new SerenConfig().load();
         } catch (ConfigurationException e) {
-            e.printStackTrace(); //FIXME
+            System.err.println("[SEREN] Configuration error : " + e.getMessage());
+            e.printStackTrace();
             System.exit(0);
         }
 
-        System.out.println("[SEREN] Filter class  : " + config.getFilterClassName());
-        System.out.println("[SEREN] Filter config : " + config.getFilterConfig());
+        boolean verbose = config.isVerbose();
+        if (verbose) {
+            System.out.println("[SEREN] Filter class  : " + config.getFilterClassName());
+            System.out.println("[SEREN] Filter config : " + config.getFilterConfig());
+        }
 
         try {
             ClassFilter filter = instanciateFilter(config.getFilterClassName());
+            filter.setVerbose(verbose);
             filter.configure(config.getFilterConfig());
-            transformer = instanciateTransformer(TRANSFORMER_CLASS, filter);
+            transformer = instanciateTransformer(TRANSFORMER_CLASS, filter, verbose);
         } catch (Exception e) {
-            e.printStackTrace(); //FIXME
+            System.err.println("[SEREN] Initialization error : " + e.getMessage());
+            e.printStackTrace();
             System.exit(0);
         }
     }
@@ -54,14 +62,14 @@ public class SerenAgent implements ClassFileTransformer {
 
     private ClassFilter instanciateFilter(String className) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Class<?> klass = Class.forName(className);
-        Constructor<?> klassConstructor = klass.getConstructor(null);
-        return (ClassFilter) klassConstructor.newInstance(null);
+        Constructor<?> klassConstructor = klass.getConstructor((Class[]) null);
+        return (ClassFilter) klassConstructor.newInstance((Object[]) null);
     }
 
-    private ClassFileTransformer instanciateTransformer(String className, ClassFilter filter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private ClassFileTransformer instanciateTransformer(String className, ClassFilter filter, boolean verbose) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Class<?> klass = Class.forName(className);
-        Constructor<?> klassConstructor = klass.getConstructor(new Class[]{ClassFilter.class});
-        return (ClassFileTransformer) klassConstructor.newInstance(filter);
+        Constructor<?> klassConstructor = klass.getConstructor(new Class[]{ClassFilter.class, Boolean.TYPE});
+        return (ClassFileTransformer) klassConstructor.newInstance(filter, verbose);
     }
 
 }

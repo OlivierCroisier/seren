@@ -23,6 +23,12 @@ import java.util.Map;
 public class BaseClassFilter implements ClassFilter {
 
     private static final String[] IGNORED_PACKAGES = new String[]{"sun/", "com/sun/", "java/", "javax/"};
+    protected boolean verbose;
+
+    @Override
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
 
     @Override
     public void configure(Map<String, String> config) {

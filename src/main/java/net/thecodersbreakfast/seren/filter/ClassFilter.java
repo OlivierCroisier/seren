@@ -13,8 +13,16 @@ import java.util.Map;
 public interface ClassFilter {
 
     /**
+     * Configures the filter to be verbose or not.<br/>
+     * This method is only called once, before the {@link ClassFilter#configure(java.util.Map)} method.
+     *
+     * @param verbose Whether the filter should be verbose
+     */
+    public void setVerbose(boolean verbose);
+
+    /**
      * Configures the filter with the parameters that were defined in the configuration file.<br/>
-     * This method is called only once, when the agent starts.
+     * This method is called only once, when the agent starts, and after the {@link ClassFilter#setVerbose(boolean)} method.
      *
      * @param config The filter's configuration. Not null.
      * @throws Exception If the configuration is incorrect.

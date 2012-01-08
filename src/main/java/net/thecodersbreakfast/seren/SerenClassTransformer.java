@@ -20,10 +20,12 @@ import java.util.List;
 public class SerenClassTransformer implements ClassFileTransformer {
 
     private ClassFilter filter;
+    private boolean verbose;
     private ClassPool pool = ClassPool.getDefault();
 
-    public SerenClassTransformer(ClassFilter filter) {
+    public SerenClassTransformer(ClassFilter filter, boolean verbose) {
         this.filter = filter;
+        this.verbose = verbose;
     }
 
     @Override
@@ -33,12 +35,19 @@ public class SerenClassTransformer implements ClassFileTransformer {
             cl = pool.makeClass(new ByteArrayInputStream(classBytes));
 
             if (filter.acceptClass(loader, cl)) {
+                if (verbose) {
+                    System.out.println("[SEREN] Enhancing class : " + cl.getName());
+                }
+
                 List<FieldInfo> serializableFields = findSerializableFields(cl);
                 createCustomSerializationMethods(cl, serializableFields);
                 classBytes = cl.toBytecode();
             }
         } catch (Exception e) {
-            System.err.println("[SEREN] Could not enhance class " + className + " : " + e.getMessage()); //FIXME
+            System.err.println("[SEREN] Warning: could not enhance class " + className + " : " + e.getMessage());
+            if (verbose) {
+                e.printStackTrace();
+            }
         } finally {
             if (cl != null) {
                 cl.detach();
@@ -59,9 +68,6 @@ public class SerenClassTransformer implements ClassFileTransformer {
 
         String serCode = serializationCode.toString();
         String deserCode = deserializationCode.toString();
-
-        System.out.println("[SEREN] Enhancing " + cl.getName());
-        //System.out.println("- Serialization code for " + cl.getName() + ": \n\n" + serCode + "\n\n" + deserCode);
 
         CtMethod writeObjectMethod = CtMethod.make(serCode, cl);
         cl.addMethod(writeObjectMethod);
@@ -172,7 +178,9 @@ public class SerenClassTransformer implements ClassFileTransformer {
     }
 
     private boolean isSerializableField(CtField field) {
-        return !memberHasModifiers(field, Modifier.STATIC) && !memberHasModifiers(field, Modifier.TRANSIENT);
+        return !memberHasModifiers(field, Modifier.STATIC) &&
+                !memberHasModifiers(field, Modifier.TRANSIENT) &&
+                !memberHasModifiers(field, Modifier.FINAL);
     }
 
     private boolean memberHasModifiers(CtMember member, int modifiers) {

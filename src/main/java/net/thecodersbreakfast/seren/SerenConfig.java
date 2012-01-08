@@ -15,11 +15,13 @@ import java.util.Properties;
 public final class SerenConfig {
 
     protected static final String CONFIG_FILE = "seren.properties";
+    private static final String VERBOSE_PROPERTY = "seren.verbose";
     private static final String FILTERID_PROPERTY = "seren.filter";
     private static final String FILTER_PREFIX = "filter.";
 
     private String filterClassName;
     private Map<String, String> filterConfig = new HashMap<String, String>();
+    private boolean verbose;
 
     public SerenConfig load() throws ConfigurationException {
         Properties config = loadConfigFile();
@@ -46,6 +48,7 @@ public final class SerenConfig {
         String filterId = extractSelectedFilterId(config);
         verifySelectedFilterConfiguration(config, filterId);
         extractSelectedFilterParameters(config, filterId);
+        extractVerbosity(config);
     }
 
     private String extractSelectedFilterId(Properties config) throws ConfigurationException {
@@ -76,11 +79,19 @@ public final class SerenConfig {
         }
     }
 
+    private void extractVerbosity(Properties config) {
+        this.verbose = Boolean.parseBoolean(config.getProperty(VERBOSE_PROPERTY, "false"));
+    }
+
     public String getFilterClassName() {
         return filterClassName;
     }
 
     public Map<String, String> getFilterConfig() {
         return filterConfig;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
     }
 }

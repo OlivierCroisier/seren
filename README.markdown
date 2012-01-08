@@ -6,7 +6,10 @@ It does so by instrumenting the classes at load-time to generate optimized write
 some best practices seen in the JavaSpecialist Master Course.
 
 Which classes should be enhanced is determined by a "filter", which is configured in the "seren.properties"
-configuration file (see below)
+configuration file (see below).
+
+In each selected class, Seren will detect and optimize all non-static, non-transient, non-final fields. If you want to
+serialize a class with final fields, please revert to the standart serialization mechanism.
 
 
 Building Seren
@@ -19,7 +22,6 @@ To compile the library and package it as a jar :
 To run the integration tests (after the library has been packaged) :
 
     mvn verify
-
 
 
 Configuration
@@ -56,6 +58,11 @@ For example :
     filter.filterByPackagePattern=net.thecodersbreakfast.seren.filter.PackagePatternFilter
     filter.filterByPackagePattern.pattern=^com\\.company\\.(.*)\\.model
 
+One othe configuration option is the "seren.verbose" parameter, which can be set to true or false (default). In verbose
+mode, both the filter and the transformer print extra information on the standart output stream (console).
+
+    seren.verbose=true
+        
 
 Runnning Seren
 ==============
