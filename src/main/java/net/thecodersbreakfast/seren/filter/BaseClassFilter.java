@@ -43,7 +43,7 @@ public class BaseClassFilter implements ClassFilter {
                 !alreadyHasMagicSerializationMethods(classDefinition);
     }
 
-    private boolean isCoreJavaClass(String className) {
+    boolean isCoreJavaClass(String className) {
         for (String IGNORED_PACKAGE : IGNORED_PACKAGES) {
             if (className.startsWith(IGNORED_PACKAGE)) {
                 return true;
@@ -52,11 +52,11 @@ public class BaseClassFilter implements ClassFilter {
         return false;
     }
 
-    private boolean isAClass(CtClass cl) {
+    boolean isAClass(CtClass cl) {
         return (!cl.isInterface() && !cl.isEnum() && !cl.isAnnotation() && !cl.isArray() && !cl.isPrimitive());
     }
 
-    private boolean implementsSerializable(CtClass cl) throws NotFoundException {
+    boolean implementsSerializable(CtClass cl) throws NotFoundException {
         CtClass[] interfaces = cl.getInterfaces();
         if (interfaces != null) {
             for (CtClass itf : interfaces) {
@@ -69,7 +69,7 @@ public class BaseClassFilter implements ClassFilter {
         return superclass != null && implementsSerializable(superclass);
     }
 
-    private boolean alreadyHasMagicSerializationMethods(CtClass cl) throws NotFoundException {
+    boolean alreadyHasMagicSerializationMethods(CtClass cl) throws NotFoundException {
         CtMethod[] methods = cl.getDeclaredMethods();
         if (methods != null) {
             for (CtMethod method : methods) {
@@ -81,13 +81,13 @@ public class BaseClassFilter implements ClassFilter {
         return false;
     }
 
-    private boolean isWriteObjectMethod(CtMethod method) throws NotFoundException {
+    boolean isWriteObjectMethod(CtMethod method) throws NotFoundException {
         return "writeObject".equals(method.getName()) &&
                 "(Ljava/io/ObjectOutputStream;)V".equals(method.getSignature()) &&
                 memberHasModifiers(method, Modifier.PRIVATE & ~Modifier.STATIC);
     }
 
-    private boolean isReadObjectMethod(CtMethod method) throws NotFoundException {
+    boolean isReadObjectMethod(CtMethod method) throws NotFoundException {
         return "readObject".equals(method.getName()) &&
                 "(Ljava/io/ObjectInputStream;)V".equals(method.getSignature()) &&
                 memberHasModifiers(method, Modifier.PRIVATE & ~Modifier.STATIC);

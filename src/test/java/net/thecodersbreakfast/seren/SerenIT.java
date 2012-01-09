@@ -14,6 +14,7 @@ public class SerenIT {
     public static final int NB_POJOS = 1000000;
     private static final int NB_RUNS = 4;
 
+
     @Test
     public void serializationSpeed() throws IOException {
         Pojo[] pojos = new Pojo[NB_POJOS];
