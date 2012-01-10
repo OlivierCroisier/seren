@@ -29,7 +29,7 @@ public class PackageListFilter extends BaseClassFilter {
     @Override
     public void configure(Map<String, String> config) {
         String packageNames = config.get("packages");
-        packages.addAll(Arrays.asList(packageNames.split(",\\s+")));
+        packages.addAll(Arrays.asList(packageNames.split(",\\s*")));
     }
 
     @Override

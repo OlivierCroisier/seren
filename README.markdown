@@ -64,7 +64,7 @@ mode, both the filter and the transformer print extra information on the standar
     seren.verbose=true
         
 
-Runnning Seren
+Running Seren
 ==============
 
 To run your application with Seren, just add the following option to the command line. Also, make sure the Javassist
@@ -104,7 +104,7 @@ As an example, below is the code of the PackageListFilter filter :
         @Override
         public void configure(Map<String, String> config) {
             String packageNames = config.get("packages");
-            packages.addAll(Arrays.asList(packageNames.split(",\\s+")));
+            packages.addAll(Arrays.asList(packageNames.split(",\\s*")));
         }
 
         @Override
