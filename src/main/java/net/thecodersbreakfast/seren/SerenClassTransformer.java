@@ -1,6 +1,7 @@
 package net.thecodersbreakfast.seren;
 
 import javassist.*;
+
 import net.thecodersbreakfast.seren.filter.ClassFilter;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +11,8 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.reflect.Modifier.*;
 
 /**
  * A {@link ClassFileTransformer} that enhances the serialization speed by injecting optimized writeObject/readObject
@@ -178,13 +181,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
     }
 
     private boolean isSerializableField(CtField field) {
-        return !memberHasModifiers(field, Modifier.STATIC) &&
-                !memberHasModifiers(field, Modifier.TRANSIENT) &&
-                !memberHasModifiers(field, Modifier.FINAL);
-    }
-
-    private boolean memberHasModifiers(CtMember member, int modifiers) {
-        return (member.getModifiers() & modifiers) != 0;
+    	return !isStatic(field.getModifiers()) && !isTransient(field.getModifiers()) && !isFinal(field.getModifiers());
     }
 
     private static String capitalize(String s) {
