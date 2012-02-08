@@ -30,10 +30,12 @@ public final class FieldInfo {
     private final String name;
     private final String type;
     private final String simpleType;
+    private final boolean isFinal;
 
-    public FieldInfo(String name, String type) {
+    public FieldInfo(String name, String type, boolean isFinal) {
         this.name = name;
         this.type = type;
+        this.isFinal = isFinal;
         this.simpleType = toSimpleType(type);
     }
 
@@ -70,5 +72,9 @@ public final class FieldInfo {
 
     public String getSimpleType() {
         return simpleType;
+    }
+
+    public boolean isFinal() {
+        return isFinal;
     }
 }

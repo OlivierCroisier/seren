@@ -1,7 +1,6 @@
 package net.thecodersbreakfast.seren;
 
 import javassist.*;
-
 import net.thecodersbreakfast.seren.filter.ClassFilter;
 
 import java.io.ByteArrayInputStream;
@@ -173,7 +172,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
         if (fields != null) {
             for (CtField field : fields) {
                 if (isSerializableField(field)) {
-                    serializableFields.add(new FieldInfo(field.getName(), field.getType().getName()));
+                    serializableFields.add(new FieldInfo(field.getName(), field.getType().getName(), isFinalField(field)));
                 }
             }
         }
@@ -181,7 +180,11 @@ public class SerenClassTransformer implements ClassFileTransformer {
     }
 
     private boolean isSerializableField(CtField field) {
-    	return !isStatic(field.getModifiers()) && !isTransient(field.getModifiers()) && !isFinal(field.getModifiers());
+        return !isStatic(field.getModifiers()) && !isTransient(field.getModifiers());
+    }
+
+    private boolean isFinalField(CtField field) {
+        return isFinal(field.getModifiers());
     }
 
     private static String capitalize(String s) {

@@ -3,6 +3,7 @@ package net.thecodersbreakfast.seren;
 import net.thecodersbreakfast.seren.filter.SerenEnhanced;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SerenEnhanced
 public class Pojo implements Serializable {
@@ -25,9 +26,14 @@ public class Pojo implements Serializable {
     Float wrapperFloat = 6.0F;
     Double wrapperDouble = 7.0;
 
-    String string = "Hello World";
+    // The counter is here to test is the fact that the string is always the same has impact on perfs,
+    // as the default serialization mechanism uses the intered string cache, and writeUTF doesn't.
+    static AtomicInteger stringCounter = new AtomicInteger(0);
+    String string = "Hello World";//+stringCounter.getAndIncrement();
 
     transient Object object;
+
+    final Pojo2 p2 = new Pojo2();
 
     @Override
     public boolean equals(Object o) {
@@ -85,4 +91,5 @@ public class Pojo implements Serializable {
         result = 31 * result + (object != null ? object.hashCode() : 0);
         return result;
     }
+
 }

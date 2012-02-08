@@ -8,8 +8,8 @@ some best practices seen in the JavaSpecialist Master Course.
 Which classes should be enhanced is determined by a "filter", which is configured in the "seren.properties"
 configuration file (see below).
 
-In each selected class, Seren will detect and optimize all non-static, non-transient, non-final fields. If you want to
-serialize a class with final fields, please revert to the standart serialization mechanism.
+In each selected class, Seren will detect and optimize all non-static, non-transient fields (as the standard
+serialization system does).
 
 
 Building Seren
