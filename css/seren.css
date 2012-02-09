@@ -1,0 +1,9 @@
+html {
+    background: #EEE;
+}
+
+body {
+    background: #EEE;
+    background: -webkit-gradient(linear, top left, bottom left, from(#CCC), to(#EEE)); /* for webkit browsers */
+    background: -moz-linear-gradient(top, #ccc, #EEE); /* for firefox 3.6+ */
+}

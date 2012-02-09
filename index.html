@@ -22,89 +22,123 @@
         }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/seren.css" rel="stylesheet">
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <link rel="shortcut icon" href="img/favicon.png">
 </head>
 
 <body>
 
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Seren</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="tour.html">5mn tour</a></li>
+                    <li><a href="benchmark.html">Benchmark</a></li>
+                    <li><a href="learn.html">Learn</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li><a href="extend.html">Extend</a></li>
+                    <li><a href="licence.html">Licence</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
-    <!-- Main hero unit for a primary marketing message or call to action -->
-    <div class="hero-unit">
+    <div class="hero-unit" style="position:relative; padding-left:300px;">
+        <a href="http://github.com/oliviercroisier/seren" title="Fork Seren on GitHub"
+           style="position:absolute; top:0; right:0; z-index: 10000;">
+            <img src="img/ForkMeOnGitHub.png" alt="ForkMeOnGitHub"/>
+        </a>
+
+        <img src="img/seren-logo-medium.png" alt="Seren logo" style="position:absolute; left:50px;"/>
+
         <h1>SEREN</h1>
         <br/>
 
-        <p></p>
+        <p> Meet SEREN, the Java SERialization ENhancer ! </p>
 
-        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+        <p>
+            Seren optimizes your Java classes so that they are much quicker to serialize.<br/>
+            Easy to use, risk-free, performant and customizable, try Seren and improve the performance of your
+            application in minutes !
+        </p>
+        <br/>
+
+        <p><a class="btn btn-primary btn-large" href="http://github.com/oliviercroisier/seren">Get it
+            now &raquo;</a></p>
+
     </div>
 
     <!-- Example row of columns -->
     <div class="row">
-        <div class="span4">
-            <h2>Heading</h2>
+        <div class="span3">
+            <h2>Easy to use</h2>
+            <ol>
+                <li><a href="install.html">Download</a> the Seren archive</li>
+                <li>Put its configuration file in the classpath</li>
+                <li>Use a JVM argument to load the library</li>
+                <li>... profit !</li>
+            </ol>
+            <p> Try it yourself on a sample project : </p>
 
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-
-            <p><a class="btn" href="#">View details &raquo;</a></p>
+            <p><a class="btn" href="#">Take the 5mn tour &raquo;</a></p>
         </div>
 
-        <div class="span4">
-            <h2>Heading</h2>
+        <div class="span3">
+            <h2>Risk-free</h2>
 
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
+            <p>Seren instruments your classes at load-time, so you don't have to change anything in your code or
+                configuration.</p>
 
-            <p><a class="btn" href="#">View details &raquo;</a></p>
+            <p> Easy to install, easy to remove, try Seren now at no risk !<br/></p>
+
+            <p><a class="btn" href="#">Learn how it works &raquo;</a></p>
         </div>
-        <div class="span4">
-            <h2>Heading</h2>
+        <div class="span3">
+            <h2>Performant</h2>
 
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus.</p>
+            <p>Seren can speedup your serialization process by a 1X - 3X factor, depending on your objects'
+                structure. </p>
 
-            <p><a class="btn" href="#">View details &raquo;</a></p>
+            <p>Strings and numeric wrappers get the best performance improvement.</p>
+
+            <p><a class="btn" href="#">View benchmarks &raquo;</a></p>
+        </div>
+        <div class="span3">
+            <h2>Customizable</h2>
+
+            <p>Seren uses cumstomizable filters to decide which classes to enhance. A few filters are provided
+                out-of-the-box : by class name, by package, using annotations... Or you can easily write your own !</p>
+
+            <p><a class="btn" href="#">Extend Seren &raquo;</a></p>
         </div>
     </div>
 
     <hr>
 
     <footer>
-        <p>&copy; Company 2012</p>
-
+        Brought to you by <a href="http://thecodersbreakfast.net" title="The Coder's Breakfast">The Coder's
+        Breakfast</a>.
     </footer>
 
 </div>
-<!-- /container -->
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/bootstrap-transition.js"></script>
-
-<script src="../assets/js/bootstrap-alert.js"></script>
-<script src="../assets/js/bootstrap-modal.js"></script>
-<script src="../assets/js/bootstrap-dropdown.js"></script>
-<script src="../assets/js/bootstrap-scrollspy.js"></script>
-<script src="../assets/js/bootstrap-tab.js"></script>
-<script src="../assets/js/bootstrap-tooltip.js"></script>
-
-<script src="../assets/js/bootstrap-popover.js"></script>
-<script src="../assets/js/bootstrap-button.js"></script>
-<script src="../assets/js/bootstrap-collapse.js"></script>
-<script src="../assets/js/bootstrap-carousel.js"></script>
-<script src="../assets/js/bootstrap-typeahead.js"></script>
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
 
 </body>
 
