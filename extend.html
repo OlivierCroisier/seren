@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Seren, the Java serialization enhancer"/>
+    <meta name="author" content="Olivier Croisier, The Coder's Breakfast"/>
+    <meta name="keywords" content="java serialization optimisation optimization performance javaagent"/>
+
+    <title>Seren, the Java serialization enhancer</title>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/seren.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+
+    <link href="css/prettify.css" type="text/css" rel="stylesheet"/>
+
+    <link rel="shortcut icon" href="img/favicon.png">
+</head>
+
+<body onload="prettyPrint()">
+
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="index.html">Seren</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="tour.html">2mn tour</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li class="active"><a href="extend.html">Extend</a></li>
+                    <li><a href="howitworks.html">How it works</a></li>
+                    <li><a href="benchmark.html">Benchmark</a></li>
+                    <li><a href="licence.html">Licence</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="hero-unit hero-subunit" style="position:relative; padding-left:200px;">
+        <a href="http://github.com/oliviercroisier/seren" title="Fork Seren on GitHub"
+           style="position:absolute; top:0; right:0; z-index: 10000;">
+            <img src="img/ForkMeOnGitHub.png" alt="ForkMeOnGitHub"/>
+        </a>
+
+        <img src="img/seren-logo-small.png" alt="Seren logo" style="position:absolute; top:40px; left:40px;"/>
+
+         <h1>SEREN</h1>
+         <br/>
+         <h2><i class="icon-extend"></i>Extend Seren</h2>
+    </div>
+
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="span12">
+            <h2>Developing a custom ClassFilter</h2>
+
+            <p>
+                Which classes should be enhanced is determined by a "filter", which is configured in the
+                "seren.properties" configuration file. A few of them are provided out-of-the-box, but it is easy to
+                develop a new one that better suits your needs.
+            </p>
+
+            <p>
+                Class filters must implement the <code>net.thecodersbreakfast.seren.filter.ClassFilter</code> interface,
+                that defines two methods :
+            </p>
+
+            <pre class="prettyprint">
+public void configure(Map&lt;String,String&gt; config) throws Exception;
+public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception;</pre>
+
+            <p>
+            The "<strong>configure</strong>" method is called after the Filter is instanciated. <br/>The Map passed as a parameter
+            contains the filter's properties defined in the configuration file; its keys are the names of the
+            properties related to this particular filter, minus the filter's prefix (filter.&lt;filterId&gt;).
+            </p>
+
+            <p>
+            The "<strong>acceptClass</strong>" method is then called for each loaded class. <br/>It's up to you to use the
+            provided class definition (a Javassist CtClass instance) to determine if it should be
+            instrumented.
+            </p>
+
+            <p>
+            It is recommended to used <strong>BaseClassFilter</strong> (<code>net.thecodersbreakfast.seren.filter.BaseClassFilter</code>)
+            as a superclass for all filters, as it provides utility methods and performs some basic checks, such as
+            verifying if the class is actually a class (not an enum, interface, etc.) and if it implements Serializable.
+            </p>
+
+            <p>
+            As an example, below is the code of the PackageListFilter filter :
+            </p>
+
+<pre class="prettyprint">
+public class PackageListFilter extends BaseClassFilter {
+
+    private Set&lt;String&gt; packages = new HashSet&lt;String&gt;();
+
+        @Override
+        public void configure(Map&lt;String,String&gt; config) {
+            String packageNames = config.get("packages");
+            packages.addAll(Arrays.asList(packageNames.split(",\\s*")));
+        }
+
+        @Override
+        public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception {
+            return super.acceptClass(classLoader, classDefinition)
+                && packages.contains(classDefinition.getPackageName());
+        }
+    }
+}</pre>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        Brought to you by <a href="http://thecodersbreakfast.net" title="The Coder's Breakfast">The Coder's
+        Breakfast</a> - Icons by <a href="http://www.glyphicons.com" target="_blank">GlyphIcons</a>
+    </footer>
+
+</div>
+
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="js/prettify.js"></script>
+
+</body>
+
+</html>
+

@@ -1,9 +1,100 @@
 html {
-    background: #EEE;
+    background: #FFF;
 }
 
 body {
-    background: #EEE;
-    background: -webkit-gradient(linear, top left, bottom left, from(#CCC), to(#EEE)); /* for webkit browsers */
-    background: -moz-linear-gradient(top, #ccc, #EEE); /* for firefox 3.6+ */
+    padding-top: 60px;
+    padding-bottom: 40px;
+    background: #FFF;
+    background: -webkit-gradient(linear, top left, bottom left, from(#DDD), to(#FFF)); /* for webkit browsers */
+    background: -moz-linear-gradient(top, #DDD, #FFF); /* for firefox 3.6+ */
 }
+
+.hero-subunit {
+    padding: 40px 60px 40px 60px;
+}
+
+h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: normal;
+}
+
+p.contactInfo div {
+    padding: 1em;
+}
+
+footer {
+    text-align: center;
+}
+
+h2 .icon-cogwheel {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    background: url("../img/glyphicons_023_cogwheels.png") top left no-repeat;
+}
+
+h2 .icon-benchmark {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    background: url("../img/glyphicons_040_stats.png") top left no-repeat;
+}
+
+h2 .icon-licence {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    background: url("../img/glyphicons_259_barcode.png") top left no-repeat;
+}
+
+h2 .icon-extend {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    background: url("../img/glyphicons_190_circle_plus.png") top left no-repeat;
+}
+
+h2 .icon-install {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    background: url("../img/glyphicons_200_download.png") top left no-repeat;
+}
+
+h2 .icon-tour {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    background: url("../img/glyphicons_044_keys.png") top left no-repeat;
+}
+
+.icon-twitter {
+     width: 100%;
+    height: 26px;
+    padding-left: 32px;
+    background: url("../img/glyphicons_322_twitter.png") top left no-repeat;
+}
+
+.icon-rss {
+    width: 100%;
+    height: 26px;
+    padding-left: 32px;
+    background: url("../img/glyphicons_327_rss.png") top left no-repeat;
+}
+
+.icon-github {
+     width: 100%;
+    height: 26px;
+    padding-left: 32px;
+    background: url("../img/glyphicons_341_github.png") top left no-repeat;
+}
+
+.icon-email {
+     width: 100%;
+    height: 26px;
+    padding-left: 32px;
+    background: url("../img/glyphicons_329_e-mail.png") top left no-repeat;
+}
+
+

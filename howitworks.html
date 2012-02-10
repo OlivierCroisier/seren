@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="img/favicon.png">
 </head>
 
-<body>
+<body onload="prettyPrint()">
 
 
 <div class="navbar navbar-fixed-top">
@@ -35,11 +35,11 @@
 
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="tour.html">2mn tour</a></li>
                     <li><a href="install.html">Install</a></li>
                     <li><a href="extend.html">Extend</a></li>
-                    <li><a href="howitworks.html">How it works</a></li>
+                    <li class="active"><a href="howitworks.html">How it works</a></li>
                     <li><a href="benchmark.html">Benchmark</a></li>
                     <li><a href="licence.html">Licence</a></li>
                 </ul>
@@ -50,75 +50,47 @@
 
 <div class="container">
 
-    <div class="hero-unit" style="position:relative; padding-left:300px;">
+    <div class="hero-unit hero-subunit" style="position:relative; padding-left:200px;">
         <a href="http://github.com/oliviercroisier/seren" title="Fork Seren on GitHub"
            style="position:absolute; top:0; right:0; z-index: 10000;">
             <img src="img/ForkMeOnGitHub.png" alt="ForkMeOnGitHub"/>
         </a>
 
-        <img src="img/seren-logo-mainpage.png" alt="Seren logo" style="position:absolute; left:50px;"/>
+        <img src="img/seren-logo-small.png" alt="Seren logo" style="position:absolute; top:40px; left:40px;"/>
 
         <h1>SEREN</h1>
+
         <br/>
-
-        <p> Meet Seren, the Java SERialization ENhancer ! </p>
-
-        <p>
-            Seren optimizes your Java classes so that they are much quicker to serialize.<br/>
-            Easy to use, risk-free, performant and customizable, try Seren and improve the performance of your
-            application in minutes !
-        </p>
-
-        <p>Seren is compatible with Java 1.5+</p>
-        <br/>
-
-        <p><a class="btn btn-primary btn-large" href="http://github.com/oliviercroisier/seren">Get it
-            now &raquo;</a></p>
+        <h2><i class="icon-cogwheel"></i>How it works</h2>
 
     </div>
 
     <!-- Example row of columns -->
     <div class="row">
-        <div class="span3">
-            <h2>Easy to use</h2>
-            <ol>
-                <li><a href="install.html">Download</a> the Seren archive</li>
-                <li>Put its configuration file in the classpath</li>
-                <li>Use a JVM argument to load the library</li>
-                <li>... profit !</li>
-            </ol>
-            <p> Try it yourself on a sample project : </p>
-
-            <p><a class="btn" href="#">Take the 5mn tour &raquo;</a></p>
+        <div class="span12">
+            <h2>How it works</h2>
+            <p>
+                Seren is a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/instrument/package-summary.html">Java Agent</a>.
+                This is a standard Java mechanism (since Java 5.0), that allows third-party libraries to instrument class when they are
+                loaded into the JVM.
+            </p>
+            <p>
+                Seren is no black magic : it just plugs into the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/serialization/index.html">standard Java serialization system</a> by generating
+                optimized <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html">readObject / writeObject</a> methods.
+            </p>
         </div>
+    </div>
 
-        <div class="span3">
-            <h2>Risk-free</h2>
+    <div class="row">
+        <div class="span12">
 
-            <p>Seren instruments your classes at load-time, so you don't have to change anything in your code or
-                configuration.</p>
+            <h2>Final fields</h2>
+            <p>
+                As per the Java Language Specification, final fields must be set to some value before the object's
+                instanciation process is over, that is, in the constructor. Then, a freeze occurs on the value and
+                it cannot be changed anymore. The compiler enforces this
+            </p>
 
-            <p> Easy to install, easy to remove, try Seren now at no risk !<br/></p>
-
-            <p><a class="btn" href="#">Learn how it works &raquo;</a></p>
-        </div>
-        <div class="span3">
-            <h2>Performant</h2>
-
-            <p>Seren can speedup your serialization process by a 1X - 3X factor, depending on your objects'
-                structure. </p>
-
-            <p>Strings and numeric wrappers get the best performance improvement.</p>
-
-            <p><a class="btn" href="#">View benchmarks &raquo;</a></p>
-        </div>
-        <div class="span3">
-            <h2>Customizable</h2>
-
-            <p>Seren uses customizable filters to decide which classes to enhance. A few filters are provided
-                out-of-the-box : by class name, by package, using annotations... Or you can easily write your own !</p>
-
-            <p><a class="btn" href="#">Extend Seren &raquo;</a></p>
         </div>
     </div>
 
