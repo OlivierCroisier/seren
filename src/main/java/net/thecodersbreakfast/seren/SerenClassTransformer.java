@@ -1,7 +1,6 @@
 package net.thecodersbreakfast.seren;
 
-import javassist.*;
-import net.thecodersbreakfast.seren.filter.ClassFilter;
+import static java.lang.reflect.Modifier.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -9,9 +8,18 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static java.lang.reflect.Modifier.*;
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtField;
+import javassist.CtMethod;
+import javassist.LoaderClassPath;
+import javassist.NotFoundException;
+import net.thecodersbreakfast.seren.filter.ClassFilter;
 
 /**
  * A {@link ClassFileTransformer} that enhances the serialization speed by injecting optimized writeObject/readObject
@@ -23,7 +31,8 @@ public class SerenClassTransformer implements ClassFileTransformer {
 
     private ClassFilter filter;
     private boolean verbose;
-    private ClassPool pool = ClassPool.getDefault();
+
+	private Map<ClassLoader, ClassPool> pools = new HashMap<ClassLoader, ClassPool>();
 
     public SerenClassTransformer(ClassFilter filter, boolean verbose) {
         this.filter = filter;
@@ -33,6 +42,7 @@ public class SerenClassTransformer implements ClassFileTransformer {
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classBytes) throws IllegalClassFormatException {
         CtClass cl = null;
+		ClassPool pool = getClassPool(loader);
         try {
             cl = pool.makeClass(new ByteArrayInputStream(classBytes));
 
@@ -58,7 +68,19 @@ public class SerenClassTransformer implements ClassFileTransformer {
         return classBytes;
     }
 
-    private void createCustomSerializationMethods(CtClass cl, List<FieldInfo> serializableFields) throws CannotCompileException, IOException {
+	private ClassPool getClassPool(ClassLoader loader) {
+		ClassPool pool = pools.get(loader);
+		if (pool == null) {
+			pool = new ClassPool(true);
+			pool.appendClassPath(new LoaderClassPath(loader));
+			pools.put(loader, pool);
+		}
+		return pool;
+	}
+
+	private void createCustomSerializationMethods(CtClass cl,
+			List<FieldInfo> serializableFields) throws CannotCompileException,
+			IOException {
         if (serializableFields == null || serializableFields.size() == 0) {
             return;
         }
