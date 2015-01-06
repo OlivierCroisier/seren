@@ -38,31 +38,36 @@ You can configure several filters in this file; only the one specified by the "s
 
 The syntax is easy :
 
-    seren.filter=<filterId>
+```properties
+seren.filter=<filterId>
 
-    filter.<filterId>=com.company.filterClass
-    filter.<filterId>.property1=value1
-    filter.<filterId>.property2=value2
-    ...
+filter.<filterId>=com.company.filterClass
+filter.<filterId>.property1=value1
+filter.<filterId>.property2=value2
+...
+```
 
 For example :
 
-    // Configure which filter will be used
-    seren.filter=filterByPackageList
+```properties
+// Configure which filter will be used
+seren.filter=filterByPackageList
 
-    // The selected filter's configuration
-    filter.filterByPackageList=net.thecodersbreakfast.seren.filter.PackageListFilter
-    filter.filterByPackageList.packages=com.company.pkg1, com.company.package2
+// The selected filter's configuration
+filter.filterByPackageList=net.thecodersbreakfast.seren.filter.PackageListFilter
+filter.filterByPackageList.packages=com.company.pkg1, com.company.package2
 
-    // Another filter configuration - won't be used
-    filter.filterByPackagePattern=net.thecodersbreakfast.seren.filter.PackagePatternFilter
-    filter.filterByPackagePattern.pattern=^com\\.company\\.(.*)\\.model
+// Another filter configuration - won't be used
+filter.filterByPackagePattern=net.thecodersbreakfast.seren.filter.PackagePatternFilter
+filter.filterByPackagePattern.pattern=^com\\.company\\.(.*)\\.model
+```
 
 One othe configuration option is the "seren.verbose" parameter, which can be set to true or false (default). In verbose
 mode, both the filter and the transformer print extra information on the standart output stream (console).
 
-    seren.verbose=true
-        
+```properties
+seren.verbose=true
+```        
 
 Running Seren
 ==============
@@ -82,8 +87,10 @@ Developing a custom class filter
 
 Class filters must implement the net.thecodersbreakfast.seren.filter.ClassFilter interface, that defines two methods :
 
+```java
     public void configure(Map<String,String> config) throws Exception;
     public boolean acceptClass(ClassLoader classLoader, CtClass classDefinition) throws Exception;
+```
 
 The "configure" method is called after the Filter is instanciated. The Map passed as a parameter contains the
 filter's properties defined in the configuration file; its keys are the names of the properties related to this
@@ -97,6 +104,7 @@ actually a class (not an enum, interface, etc.) and if it implements Serializabl
 
 As an example, below is the code of the PackageListFilter filter :
 
+```java
     public class PackageListFilter extends BaseClassFilter {
 
         private Set<String> packages = new HashSet<String>();
@@ -112,7 +120,7 @@ As an example, below is the code of the PackageListFilter filter :
             return super.acceptClass(classLoader, classDefinition) && packages.contains(classDefinition.getPackageName());
         }
     }
-
+```
 
 Licence & Contact info
 ======================
