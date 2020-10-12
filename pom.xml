@@ -29,7 +29,7 @@
         <code.target.version>1.6</code.target.version>
         <ressources.encoding>UTF-8</ressources.encoding>
         <lib.javassist.version>3.12.1.GA</lib.javassist.version>
-        <lib.junit.version>4.9</lib.junit.version>
+        <lib.junit.version>4.13.1</lib.junit.version>
     </properties>
 
     <dependencies>
